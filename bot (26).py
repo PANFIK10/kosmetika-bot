@@ -125,6 +125,12 @@ async def ask_openrouter(text: str = None, base64_image: str = None) -> str:
                     if response.status == 200:
                         data = await response.json()
                         raw_response = data['choices'][0]['message']['content']
+                        
+                        # Если модель ответила нашей заготовленной фразой о плохом фото
+                        if "трудно разобрать" in raw_response and model != MODELS[-1]:
+                            logging.warning(f"Модель {model} не смогла прочитать фото. Передаю следующей...")
+                            continue # Пробуем следующую модель в списке
+                            
                         return convert_markdown_to_html(raw_response)
                     else:
                         logging.warning(f"Модель {model} вернула статус {response.status}.")
