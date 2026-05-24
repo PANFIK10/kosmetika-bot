@@ -157,7 +157,26 @@ async def process_help(callback: CallbackQuery):
     
     await callback.message.answer(help_text)
     await callback.answer()
+@dp.message(Command("help"))
+async def cmd_help_menu(message: Message):
+    help_text = """📋 <b>Как правильно использовать бота:</b>
 
+1. <b>Фотография:</b> Сделайте четкий снимок состава на упаковке при хорошем освещении. Текст не должен быть смазан или перекрыт бликами.
+2. <b>Текст:</b> Скопируйте состав с сайта интернет-магазина и отправьте обычным сообщением.
+
+<i>Бот игнорирует полезные и нейтральные базы, фокусируясь исключительно на триггерах аллергии, комедогенности, фотосенсибилизации и агрессивных ПАВ.</i>"""
+    await message.answer(help_text)
+
+@dp.message(Command("about"))
+async def cmd_about(message: Message):
+    about_text = (
+        "🔬 <b>О методе разбора:</b>\n\n"
+        "Этот бот работает на базе продвинутых нейросетей, обученных на клинико-дерматологическом подходе. "
+        "Он не оценивает «экологичность» или «натуральность» косметики.\n\n"
+        "<b>Его главная цель</b> — подсветить потенциальные риски для кожи: агрессивные активы, "
+        "высокую кислотную нагрузку, комедогенные базы и скрытые аллергены."
+    )
+    await message.answer(about_text)
 @dp.message(F.text)
 async def handle_text_ingredients(message: Message):
     status_msg = await message.answer("⏳ <i>Анализирую текстовый состав... Пожалуйста, подождите.</i>")
